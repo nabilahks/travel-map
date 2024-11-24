@@ -9,7 +9,7 @@ class PlaceStore {
     latitude: -6.1751,
     zoom: 13,
   };
-  isLoading = false;
+  isLoading = null;
   filterCategory = "";
 
   constructor() {
@@ -23,19 +23,17 @@ class PlaceStore {
       loadUserLocation: flow,
       setFilterCategory: action,
       setViewport: action,
+      setIsLoading: action
     });
   }
 
   loadPlaces = flow(function* (lon, lat, radius) {
-    this.isLoading = true;
     try {
       const data = yield fetchPlaces(lon, lat, radius);
       this.places = data;
     } catch (error) {
       console.error("Failed to load places:", error);
-    } finally {
-      this.isLoading = false;
-    }
+    } 
   });
 
   loadUserLocation = flow(function* () {
@@ -68,6 +66,11 @@ class PlaceStore {
 
   setViewport(viewState) {
     this.viewport = viewState;
+  }
+
+  setIsLoading(data) {
+    console.log(data)
+    this.isLoading = data;
   }
 
   setFilterCategory(category) {

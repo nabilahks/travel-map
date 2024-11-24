@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import PlaceList from "../components/PlaceList";
-import { Container, Typography } from "@mui/material";
+import { CircularProgress, Container, Typography } from "@mui/material";
 import MapboxMap from "@/components/MapBox";
 import PlaceFilter from "@/components/PlaceFilter";
 import { observer } from "mobx-react-lite";
 import { placeStore } from "@/stores/placeStore";
+import Loader from "@/components/Loader";
 
 const Home = observer(() => {
   useEffect(() => {
     const initialize = async () => {
+      placeStore.setIsLoading(true)
       if (navigator.geolocation) {
         await placeStore.loadUserLocation();
         console.log("User Location di store:", placeStore.userLocation);
@@ -30,20 +32,30 @@ const Home = observer(() => {
         await placeStore.loadPlaces(106.8272, -6.1751, 5000);
         alert("Browser Anda tidak mendukung geolocation. Default ke Jakarta.");
       }
+      placeStore.setIsLoading(false)
     };
-
     initialize();
   }, []);
 
+  // Kondisi jika masih loading
+  console.log(placeStore.isLoading)
+  if (placeStore.isLoading === true) {
+    return (
+      <Container>
+        <Loader/>
+      </Container>
+    );
+  }
+
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom style={{textAlign:"center", margin:"40px 0"}}>
         Nearby Places
       </Typography>
-      <MapboxMap userLocation={placeStore.userLocation} places={placeStore.places} />
       <PlaceFilter />
+      <MapboxMap userLocation={placeStore.userLocation} places={placeStore.filteredPlaces} />
       {placeStore.filteredPlaces && (
-        <PlaceList/>
+        <PlaceList currentPlaces={placeStore.filteredPlaces}/>
       )}
     </Container>
   );
