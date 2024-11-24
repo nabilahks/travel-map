@@ -4,10 +4,9 @@ import { placeStore } from "../stores/placeStore";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 const PlaceFilter = observer(() => {
-  const { filterCategory, setFilterCategory } = placeStore;
-
   const handleChange = (event) => {
-    setFilterCategory(event.target.value);
+    const selectedCategory = event.target.value;
+    placeStore.setFilterCategory(selectedCategory); // Pastikan metode dipanggil dengan benar
   };
 
   return (
@@ -15,7 +14,7 @@ const PlaceFilter = observer(() => {
       <InputLabel id="category-filter-label">Filter by Category</InputLabel>
       <Select
         labelId="category-filter-label"
-        value={filterCategory}
+        value={placeStore.filterCategory}
         label="Filter by Category"
         onChange={handleChange}
       >

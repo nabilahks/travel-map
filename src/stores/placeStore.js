@@ -3,8 +3,8 @@ import { fetchPlaces } from "../utils/api";
 
 class PlaceStore {
   places = [];
-  userLocation = null; // Default null jika belum ada lokasi pengguna
-  viewport = {         // Default ke Jakarta
+  userLocation = null;
+  viewport = {
     longitude: 106.8272,
     latitude: -6.1751,
     zoom: 13,
@@ -25,7 +25,6 @@ class PlaceStore {
       setViewport: action,
     });
   }
-  
 
   loadPlaces = flow(function* (lon, lat, radius) {
     this.isLoading = true;
@@ -49,37 +48,30 @@ class PlaceStore {
       const pos = yield getCurrentPosition();
       const { latitude, longitude } = pos.coords;
 
-      // Update lokasi pengguna
       this.userLocation = { latitude, longitude };
       this.viewport = {
         longitude,
         latitude,
         zoom: 13,
       };
-
-      console.log("Geolocation berhasil:", this.userLocation);
-      console.log("Viewport:", this.viewport);
     } catch (error) {
       console.error("Error getting geolocation:", error);
 
-      // Fallback ke Jakarta
       this.userLocation = null;
       this.viewport = {
         longitude: 106.8272,
         latitude: -6.1751,
         zoom: 13,
       };
-
-      console.log("Fallback ke Jakarta");
     }
   });
 
   setViewport(viewState) {
     this.viewport = viewState;
-  }  
+  }
 
   setFilterCategory(category) {
-    console.log(category)
+    console.log("Setting category:", category);
     this.filterCategory = category;
   }
 
