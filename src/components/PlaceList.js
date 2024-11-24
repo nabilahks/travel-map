@@ -29,7 +29,7 @@ const PlaceList = observer(() => {
 
   return (
     <List>
-      {placeStore.places.map((place, index) => (
+      {placeStore.filteredPlaces.map((place, index) => (
         <ListItem key={index}>
           <ListItemText primary={place.name || "Unnamed place"} secondary={place.kinds} />
         </ListItem>
