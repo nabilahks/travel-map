@@ -4,8 +4,8 @@ import { fetchPlaces } from "../utils/api"; // Fungsi fetch OpenTripMap API
 
 const MapboxMap = () => {
   const [viewport, setViewport] = useState({
-    longitude: 106.8272, // Default: Jakarta
-    latitude: -6.1751,  // Default: Jakarta
+    longitude: 112.7494643, // Default: Surabaya
+    latitude: -7.284382,  // Default: Surabaya
     zoom: 13,
   });
 
@@ -18,11 +18,14 @@ const MapboxMap = () => {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const { latitude, longitude } = pos.coords;
+
+          // Update Viewport ke lokasi pengguna
           setViewport({
             longitude,
             latitude,
             zoom: 13,
           });
+
           setUserLocation({ latitude, longitude });
 
           // Fetch tempat menarik dari OpenTripMap
@@ -35,6 +38,8 @@ const MapboxMap = () => {
       );
     }
   }, []);
+
+  console.log("User Location:", userLocation);
 
   return (
     <Map
@@ -50,8 +55,8 @@ const MapboxMap = () => {
           <div
             style={{
               backgroundColor: "red",
-              width: "12px",
-              height: "12px",
+              width: "15px",
+              height: "15px",
               borderRadius: "50%",
             }}
           ></div>
