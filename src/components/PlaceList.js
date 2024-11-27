@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Grid, List, ListItem, ListItemText, Box, Pagination } from "@mui/material";
+import { placeStore } from "@/stores/placeStore";
 
-const PlaceList = ({ currentPlaces }) => {
-  const [currentPage, setCurrentPage] = useState(1); // Halaman aktif
-  const itemsPerPage = 10; // Jumlah item per halaman (5 kiri + 5 kanan)
+const PlaceList = ({ currentPlaces, mapRef }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   // Fungsi untuk menangani perubahan halaman
   const handlePageChange = (event, value) => {
@@ -14,11 +15,31 @@ const PlaceList = ({ currentPlaces }) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedPlaces = currentPlaces.slice(startIndex, startIndex + itemsPerPage);
 
+  const handlePlaceClick = (place) => {
+    placeStore.setSelectedPlace(place);
+
+    const [longitude, latitude] = place.center;
+    if (mapRef.current) {
+      mapRef.current.flyTo({
+        center: [longitude, latitude],
+        zoom: 13,
+        essential: true,
+      });
+    } else {
+      console.error("mapRef.current is null. Make sure it's connected to the Mapbox instance.");
+    }
+  };
+
   return (
     <Box>
       <List>
         {paginatedPlaces.map((place, index) => (
-          <ListItem key={index}>
+          <ListItem
+            button="true"
+            key={index}
+            onClick={() => handlePlaceClick(place)}
+            sx={{cursor:"pointer"}}
+          >
             <ListItemText
               primary={place.text || "Unnamed place"}
               secondary={""}

@@ -11,6 +11,7 @@ class PlaceStore {
   };
   isLoading = null;
   filterCategory = "";
+  selectedPlace = null
 
   constructor() {
     makeObservable(this, {
@@ -19,12 +20,14 @@ class PlaceStore {
       viewport: observable,
       isLoading: observable,
       filterCategory: observable,
+      selectedPlace: observable,
       loadPlaces: flow,
       loadUserLocation: flow,
       searchLocation: flow,
       setFilterCategory: action,
       setViewport: action,
       setIsLoading: action,
+      setSelectedPlace: action,
     });
   }
 
@@ -91,6 +94,10 @@ class PlaceStore {
 
   setIsLoading(data) {
     this.isLoading = data;
+  }
+
+  setSelectedPlace(data) {
+    this.selectedPlace = data;
   }
 
   setFilterCategory(category) {

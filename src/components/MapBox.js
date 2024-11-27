@@ -7,9 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 
-const MapboxMap = observer(({ places }) => {
-  const mapRef = useRef(null);
-  const [selectedPlace, setSelectedPlace] = useState(null);
+const MapboxMap = observer(({ places, mapRef }) => {
 
   const { viewport, userLocation } = placeStore;
 
@@ -40,11 +38,11 @@ const MapboxMap = observer(({ places }) => {
   };
 
   const handleMarkerClick = async (place) => {
-    setSelectedPlace(place);
+    placeStore.setSelectedPlace(place);
   };
 
   const handlePopupClose = () => {
-    setSelectedPlace(null);
+    placeStore.setSelectedPlace(null);
   };
 
   return (
@@ -94,18 +92,14 @@ const MapboxMap = observer(({ places }) => {
             </Marker>
           ))}
 
-        {selectedPlace && (
+        {placeStore.selectedPlace && (
           <Popup
-            longitude={selectedPlace.center[0]}
-            latitude={selectedPlace.center[1]}
+            longitude={placeStore.selectedPlace.center[0]}
+            latitude={placeStore.selectedPlace.center[1]}
             anchor="top"
-            closeButton={true}
-            closeOnClick={false} 
-            onClose={handlePopupClose} 
-            style={{
-              borderRadius: "20px",
-              border: "none",
-            }}
+            closeButton={true} 
+            closeOnClick={false}
+            onClose={handlePopupClose}
           >
             <div
               style={{
@@ -116,12 +110,12 @@ const MapboxMap = observer(({ places }) => {
                 boxShadow: "none"
               }}
             >
-              <p style={{ margin: 0 }}>{selectedPlace.place_name}</p>
+              <p style={{ margin: 0 }}>{placeStore.selectedPlace.place_name}</p>
               <p style={{ margin: "5px 0", fontSize: "12px", color: "#555" }}>
-                Longitude: {selectedPlace.center[0].toFixed(6)}
+                Longitude: {placeStore.selectedPlace.center[0].toFixed(6)}
               </p>
               <p style={{ margin: 0, fontSize: "12px", color: "#555" }}>
-                Latitude: {selectedPlace.center[1].toFixed(6)}
+                Latitude: {placeStore.selectedPlace.center[1].toFixed(6)}
               </p>
             </div>
           </Popup>

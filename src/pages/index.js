@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import PlaceList from "../components/PlaceList";
 import { Box, CircularProgress, Container, Grid, Grid2, Typography } from "@mui/material";
 import MapboxMap from "@/components/MapBox";
@@ -9,6 +9,7 @@ import Loader from "@/components/Loader";
 import LocationSearch from "@/components/LocationSearch";
 
 const Home = observer(() => {
+  const mapRef = useRef(null);
   useEffect(() => {
     const initialize = async () => {
       placeStore.setIsLoading(true)
@@ -56,11 +57,11 @@ const Home = observer(() => {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             {placeStore.filteredPlaces ? (
-              <PlaceList currentPlaces={placeStore.filteredPlaces}/>
+              <PlaceList mapRef={mapRef} currentPlaces={placeStore.filteredPlaces}/>
             ): "-"}
           </Grid>
           <Grid item xs={8}>
-            <MapboxMap userLocation={placeStore.userLocation} places={placeStore.filteredPlaces} />
+            <MapboxMap mapRef={mapRef} userLocation={placeStore.userLocation} places={placeStore.filteredPlaces} />
           </Grid>
         </Grid>
       </Box>
