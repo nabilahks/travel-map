@@ -23,7 +23,7 @@ export const fetchPlaces = async (lon, lat) => {
     // Gabungkan hasil dari setiap kategori
     const allPlaces = responses.flatMap((response) => response.data.features);
 
-    console.log('All Places:', allPlaces);
+    // console.log('All Places:', allPlaces);
 
     return allPlaces;
   } catch (error) {
@@ -45,7 +45,7 @@ export const fetchCoordinates = async (locationName) => {
       }
     );
     const data = response.data.features;
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching coordinates:", error);

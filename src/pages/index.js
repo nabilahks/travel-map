@@ -53,15 +53,15 @@ const Home = observer(() => {
       </Typography>
       <LocationSearch/>
       <PlaceFilter />
-      <Box>
+      <Box mb={10}>
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={12} md={8}>
+            <MapboxMap mapRef={mapRef} userLocation={placeStore.userLocation} places={placeStore.filteredPlaces} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
             {placeStore.filteredPlaces ? (
               <PlaceList mapRef={mapRef} currentPlaces={placeStore.filteredPlaces}/>
             ): "-"}
-          </Grid>
-          <Grid item xs={8}>
-            <MapboxMap mapRef={mapRef} userLocation={placeStore.userLocation} places={placeStore.filteredPlaces} />
           </Grid>
         </Grid>
       </Box>
