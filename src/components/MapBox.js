@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import Map, { Marker } from "react-map-gl";
+import React, { useRef, useState } from "react";
+import Map, { Marker, Popup } from "react-map-gl";
 import { observer } from "mobx-react-lite";
 import { placeStore } from "@/stores/placeStore";
 import { IconButton } from "@mui/material";
@@ -8,22 +8,23 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 
 const MapboxMap = observer(({ places }) => {
-  const mapRef = useRef(null); // Referensi untuk Mapbox instance
+  const mapRef = useRef(null);
+  const [selectedPlace, setSelectedPlace] = useState(null); // State untuk menyimpan tempat yang dipilih
 
-  const { viewport, userLocation } = placeStore; // Ambil viewport dan userLocation dari placeStore
+  const { viewport, userLocation } = placeStore;
 
   const handleFlyToLocation = () => {
     if (userLocation && mapRef.current) {
       mapRef.current.flyTo({
         center: [userLocation.longitude, userLocation.latitude],
         zoom: 13,
-        essential: true, // Animasi penting
+        essential: true,
       });
     } else {
       alert("Lokasi Anda belum tersedia. Mohon aktifkan layanan lokasi.");
     }
   };
-  
+
   const handleZoomIn = () => {
     if (mapRef.current) {
       const currentZoom = mapRef.current.getZoom();
@@ -37,16 +38,25 @@ const MapboxMap = observer(({ places }) => {
       mapRef.current.zoomTo(currentZoom - 1);
     }
   };
+
+  const handleMarkerClick = (place) => {
+    setSelectedPlace(place); // Set tempat yang diklik
+  };
+
+  const handlePopupClose = () => {
+    setSelectedPlace(null); // Tutup popup
+  };
+
   return (
     <>
       <Map
         ref={mapRef}
-        initialViewState={viewport} // Gunakan viewport dari placeStore
-        style={{ height: "500px", border: "4px solid #fff", borderRadius:"20px" }}
+        initialViewState={viewport}
+        style={{ height: "500px", border: "4px solid #fff", borderRadius: "20px" }}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
         onMove={(evt) => {
-          placeStore.setViewport(evt.viewState); // Gunakan aksi untuk memperbarui viewport
+          placeStore.setViewport(evt.viewState);
         }}
       >
         {/* Marker untuk lokasi pengguna */}
@@ -70,6 +80,7 @@ const MapboxMap = observer(({ places }) => {
               key={index}
               longitude={place.point.lon}
               latitude={place.point.lat}
+              onClick={() => handleMarkerClick(place)} // Klik pada marker
             >
               <div
                 style={{
@@ -77,10 +88,43 @@ const MapboxMap = observer(({ places }) => {
                   width: "10px",
                   height: "10px",
                   borderRadius: "50%",
+                  cursor: "pointer",
                 }}
               ></div>
             </Marker>
-          )
+          ))}
+
+        {selectedPlace && (
+          <Popup
+            longitude={selectedPlace.point.lon}
+            latitude={selectedPlace.point.lat}
+            anchor="top"
+            closeButton={true}
+            closeOnClick={false} // Jangan tutup popup saat klik peta
+            onClose={handlePopupClose} // Tutup popup saat tombol close diklik
+            style={{
+              borderRadius: "20px",
+              border: "none",
+            }}
+          >
+            <div
+              style={{
+                color: "black",
+                fontSize: "14px",
+                fontWeight: "bold",
+                background: "transparant",
+                boxShadow: "none"
+              }}
+            >
+              <p style={{ margin: 0 }}>{selectedPlace.name}</p>
+              <p style={{ margin: "5px 0", fontSize: "12px", color: "#555" }}>
+                Longitude: {selectedPlace.point.lon.toFixed(6)}
+              </p>
+              <p style={{ margin: 0, fontSize: "12px", color: "#555" }}>
+                Latitude: {selectedPlace.point.lat.toFixed(6)}
+              </p>
+            </div>
+          </Popup>
         )}
 
         {/* Tombol "Ke Lokasi Saya" */}
@@ -136,7 +180,6 @@ const MapboxMap = observer(({ places }) => {
         >
           <RemoveIcon />
         </IconButton>
-
       </Map>
     </>
   );

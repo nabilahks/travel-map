@@ -7,3 +7,10 @@ html, body {
   background-color: #000032;
   color: #fff;
 }
+
+.mapboxgl-popup-content {
+  box-shadow: none !important;
+  padding: 20px;
+  border-radius: 20px;
+  border-top-right-radius: 0 !important;
+}
