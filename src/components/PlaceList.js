@@ -20,7 +20,7 @@ const PlaceList = ({ currentPlaces }) => {
         {paginatedPlaces.map((place, index) => (
           <ListItem key={index}>
             <ListItemText
-              primary={place.name || "Unnamed place"}
+              primary={place.text || "Unnamed place"}
               secondary={""}
             />
           </ListItem>

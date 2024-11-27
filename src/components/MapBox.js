@@ -40,7 +40,6 @@ const MapboxMap = observer(({ places }) => {
   };
 
   const handleMarkerClick = async (place) => {
-    await placeStore.loadPlaceDetails(place.xid)
     setSelectedPlace(place);
   };
 
@@ -79,8 +78,8 @@ const MapboxMap = observer(({ places }) => {
           places.map((place, index) => (
             <Marker
               key={index}
-              longitude={place.point.lon}
-              latitude={place.point.lat}
+              longitude={place.center[0]}
+              latitude={place.center[1]}
               onClick={() => handleMarkerClick(place)}
             >
               <div
@@ -97,8 +96,8 @@ const MapboxMap = observer(({ places }) => {
 
         {selectedPlace && (
           <Popup
-            longitude={selectedPlace.point.lon}
-            latitude={selectedPlace.point.lat}
+            longitude={selectedPlace.center[0]}
+            latitude={selectedPlace.center[1]}
             anchor="top"
             closeButton={true}
             closeOnClick={false} 
@@ -117,12 +116,12 @@ const MapboxMap = observer(({ places }) => {
                 boxShadow: "none"
               }}
             >
-              <p style={{ margin: 0 }}>{selectedPlace.name}</p>
+              <p style={{ margin: 0 }}>{selectedPlace.place_name}</p>
               <p style={{ margin: "5px 0", fontSize: "12px", color: "#555" }}>
-                Longitude: {selectedPlace.point.lon.toFixed(6)}
+                Longitude: {selectedPlace.center[0].toFixed(6)}
               </p>
               <p style={{ margin: 0, fontSize: "12px", color: "#555" }}>
-                Latitude: {selectedPlace.point.lat.toFixed(6)}
+                Latitude: {selectedPlace.center[1].toFixed(6)}
               </p>
             </div>
           </Popup>

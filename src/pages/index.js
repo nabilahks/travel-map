@@ -6,7 +6,7 @@ import PlaceFilter from "@/components/PlaceFilter";
 import { observer } from "mobx-react-lite";
 import { placeStore } from "@/stores/placeStore";
 import Loader from "@/components/Loader";
-import PlaceDetailCard from "@/components/PlaceDetailCard";
+import LocationSearch from "@/components/LocationSearch";
 
 const Home = observer(() => {
   useEffect(() => {
@@ -20,15 +20,15 @@ const Home = observer(() => {
           const { longitude, latitude } = placeStore.userLocation;
 
           if (longitude && latitude) {
-            await placeStore.loadPlaces(longitude, latitude, 5000);
+            await placeStore.loadPlaces(longitude, latitude);
           }
         } else {
           // Fallback ke lokasi default (Jakarta)
-          await placeStore.loadPlaces(106.8272, -6.1751, 5000);
+          await placeStore.loadPlaces(106.8272, -6.1751);
         }
       } else {
         // Jika geolokasi tidak tersedia
-        await placeStore.loadPlaces(106.8272, -6.1751, 5000);
+        await placeStore.loadPlaces(106.8272, -6.1751);
         alert("Browser Anda tidak mendukung geolocation. Default ke Jakarta.");
       }
       placeStore.setIsLoading(false)
@@ -50,6 +50,7 @@ const Home = observer(() => {
       <Typography variant="h2" style={{textAlign:"center", margin:"40px 0"}}>
         Nearby Places
       </Typography>
+      <LocationSearch/>
       <PlaceFilter />
       <Box>
         <Grid container spacing={2}>
@@ -63,14 +64,6 @@ const Home = observer(() => {
           </Grid>
         </Grid>
       </Box>
-      {placeStore.placeDetails && (
-        <Box>
-          <Typography variant="h5" style={{textAlign:"left", margin:"20px 0"}}>
-            Informasi Detail
-          </Typography>
-          <PlaceDetailCard placeDetails={placeStore.placeDetails} />
-        </Box>
-      )}
     </Container>
   );
 });

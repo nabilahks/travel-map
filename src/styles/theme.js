@@ -76,6 +76,38 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "20px", // Membuat rounded border
+            backgroundColor: "#333", // Background putih
+            color: "white", // Teks hitam
+            "& fieldset": {
+              borderColor: "#ccc", // Warna border default
+            },
+            "&:hover fieldset": {
+              borderColor: "#aaa", // Warna border saat hover
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#00FFFF", // Warna border saat fokus
+            },
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20px", // Rounded button
+          backgroundColor: "#00FFFF", // Background putih
+          color: "black", // Teks hitam
+          "&:hover": {
+            backgroundColor: "#ddd", // Background saat hover
+          },
+        },
+      },
+    },
   },
 });
 

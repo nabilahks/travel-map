@@ -1,9 +1,8 @@
 import { action, flow, makeObservable, observable } from "mobx";
-import { fetchPlaceByXid, fetchPlaces } from "../utils/api";
+import { fetchCoordinates, fetchPlaceByXid, fetchPlaces } from "../utils/api";
 
 class PlaceStore {
   places = [];
-  placeDetails = null;
   userLocation = null;
   viewport = {
     longitude: 106.8272,
@@ -16,39 +15,27 @@ class PlaceStore {
   constructor() {
     makeObservable(this, {
       places: observable,
-      placeDetails: observable,
       userLocation: observable,
       viewport: observable,
       isLoading: observable,
       filterCategory: observable,
       loadPlaces: flow,
-      loadPlaceDetails: flow, 
       loadUserLocation: flow,
+      searchLocation: flow,
       setFilterCategory: action,
       setViewport: action,
       setIsLoading: action,
     });
   }
 
-  loadPlaces = flow(function* (lon, lat, radius) {
+  loadPlaces = flow(function* (lon, lat) {
     try {
-      const data = yield fetchPlaces(lon, lat, radius);
+      const data = yield fetchPlaces(lon, lat);
       this.places = data;
     } catch (error) {
       console.error("Failed to load places:", error);
     } 
   });
-  
-  // Load detail tempat berdasarkan XID
-  loadPlaceDetails = flow(function* (xid) {
-    try {
-      const data = yield fetchPlaceByXid(xid); 
-      this.placeDetails = data;
-    } catch (error) {
-      console.error("Failed to load place details:", error);
-    } 
-  });
-  
 
   loadUserLocation = flow(function* () {
     try {
@@ -78,6 +65,26 @@ class PlaceStore {
     }
   });
 
+  searchLocation = flow(function* (locationName) {
+    this.isLoading = true;
+    try {
+      // Fetch coordinates based on location name
+      const coordinates = yield fetchCoordinates(locationName);
+
+      // Update viewport to the new coordinates
+      this.viewport = {
+        longitude: coordinates[0].center[0],
+        latitude: coordinates[0].center[1],
+        zoom: 5,
+      };
+      this.places = coordinates
+    } catch (error) {
+      console.error("Failed to search location:", error);
+    } finally {
+      this.isLoading = false;
+    }
+  });
+
   setViewport(viewState) {
     this.viewport = viewState;
   }
@@ -92,12 +99,12 @@ class PlaceStore {
 
   get filteredPlaces() {
     if (!this.filterCategory) return this.places;
-    return this.places.filter((place) => place.kinds?.includes(this.filterCategory));
+    return this.places.filter((place) => place.properties.category?.includes(this.filterCategory));
   }
 
   get uniqueKinds() {
     const allKinds = this.places
-      .map((place) => place.kinds)
+      .map((place) => place.properties.category)
       .filter(Boolean)
       .flatMap((kinds) => kinds.split(","));
 
