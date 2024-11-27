@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PlaceList from "../components/PlaceList";
-import { CircularProgress, Container, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Grid, Grid2, Typography } from "@mui/material";
 import MapboxMap from "@/components/MapBox";
 import PlaceFilter from "@/components/PlaceFilter";
 import { observer } from "mobx-react-lite";
@@ -38,7 +38,6 @@ const Home = observer(() => {
   }, []);
 
   // Kondisi jika masih loading
-  console.log(placeStore.isLoading)
   if (placeStore.isLoading === true) {
     return (
       <Container>
@@ -49,14 +48,22 @@ const Home = observer(() => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom style={{textAlign:"center", margin:"40px 0"}}>
+      <Typography variant="h2" style={{textAlign:"center", margin:"40px 0"}}>
         Nearby Places
       </Typography>
       <PlaceFilter />
-      <MapboxMap userLocation={placeStore.userLocation} places={placeStore.filteredPlaces} />
-      {placeStore.filteredPlaces && (
-        <PlaceList currentPlaces={placeStore.filteredPlaces}/>
-      )}
+      <Box>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            {placeStore.filteredPlaces ? (
+              <PlaceList currentPlaces={placeStore.filteredPlaces}/>
+            ): "-"}
+          </Grid>
+          <Grid item xs={8}>
+            <MapboxMap userLocation={placeStore.userLocation} places={placeStore.filteredPlaces} />
+          </Grid>
+        </Grid>
+      </Box>
     </Container>
   );
 });

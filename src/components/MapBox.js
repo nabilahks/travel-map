@@ -42,7 +42,7 @@ const MapboxMap = observer(({ places }) => {
       <Map
         ref={mapRef}
         initialViewState={viewport} // Gunakan viewport dari placeStore
-        style={{ width: "100%", height: "500px", border: "4px solid black", borderRadius:"20px" }}
+        style={{ height: "500px", border: "4px solid #fff", borderRadius:"20px" }}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
         onMove={(evt) => {

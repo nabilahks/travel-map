@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Fredoka:wght@300..700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+html, body {
+  font-family: "Concert One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  background-color: #000032;
+  color: #fff;
+}

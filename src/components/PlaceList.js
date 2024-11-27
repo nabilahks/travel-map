@@ -14,48 +14,25 @@ const PlaceList = ({ currentPlaces }) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedPlaces = currentPlaces.slice(startIndex, startIndex + itemsPerPage);
 
-  // Membagi item ke dalam dua kolom
-  const leftColumn = paginatedPlaces.slice(0, Math.ceil(paginatedPlaces.length / 2));
-  const rightColumn = paginatedPlaces.slice(Math.ceil(paginatedPlaces.length / 2));
-
   return (
     <Box>
-      <Grid container spacing={2}>
-        {/* Kolom Kiri */}
-        <Grid item xs={6}>
-          <List>
-            {leftColumn.map((place, index) => (
-              <ListItem key={index}>
-                <ListItemText
-                  primary={place.name || "Unnamed place"}
-                  secondary={""}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-
-        {/* Kolom Kanan */}
-        <Grid item xs={6}>
-          <List>
-            {rightColumn.map((place, index) => (
-              <ListItem key={index}>
-                <ListItemText
-                  primary={place.name || "Unnamed place"}
-                  secondary={""}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-      </Grid>
+      <List>
+        {paginatedPlaces.map((place, index) => (
+          <ListItem key={index}>
+            <ListItemText
+              primary={place.name || "Unnamed place"}
+              secondary={""}
+            />
+          </ListItem>
+        ))}
+      </List>
 
       {/* Pagination Controls */}
       <Pagination
         count={Math.ceil(currentPlaces.length / itemsPerPage)} // Total halaman
         page={currentPage} // Halaman aktif
         onChange={handlePageChange} // Fungsi untuk perubahan halaman
-        sx={{ marginTop: 2, display: "flex", justifyContent: "center" }}
+        sx={{ marginTop: 2, display: "flex", justifyContent: "center", color: "#fff"}}
       />
     </Box>
   );
