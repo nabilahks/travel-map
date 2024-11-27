@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-const categories = ['restaurant', 'hotel', 'supermarket'];
+const categories = ['hotel', 'restaurant', 'supermarket', 'hospital', 'place', 'locality', 'region', 'country'];
 
 export const fetchPlaces = async (lon, lat) => {
   try {
@@ -11,7 +11,7 @@ export const fetchPlaces = async (lon, lat) => {
         params: {
           access_token: MAPBOX_API_KEY,
           proximity: `${lon},${lat}`,
-          limit: 5,
+          limit: 10,
           types: 'poi',
         },
       })
