@@ -6,6 +6,7 @@ import PlaceFilter from "@/components/PlaceFilter";
 import { observer } from "mobx-react-lite";
 import { placeStore } from "@/stores/placeStore";
 import Loader from "@/components/Loader";
+import PlaceDetailCard from "@/components/PlaceDetailCard";
 
 const Home = observer(() => {
   useEffect(() => {
@@ -13,8 +14,6 @@ const Home = observer(() => {
       placeStore.setIsLoading(true)
       if (navigator.geolocation) {
         await placeStore.loadUserLocation();
-        console.log("User Location di store:", placeStore.userLocation);
-        console.log("Viewport di store:", placeStore.viewport);
 
         // Validasi jika userLocation tersedia
         if (placeStore.userLocation) {
@@ -64,6 +63,14 @@ const Home = observer(() => {
           </Grid>
         </Grid>
       </Box>
+      {placeStore.placeDetails && (
+        <Box>
+          <Typography variant="h5" style={{textAlign:"left", margin:"20px 0"}}>
+            Informasi Detail
+          </Typography>
+          <PlaceDetailCard placeDetails={placeStore.placeDetails} />
+        </Box>
+      )}
     </Container>
   );
 });

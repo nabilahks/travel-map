@@ -42,14 +42,11 @@ class PlaceStore {
   // Load detail tempat berdasarkan XID
   loadPlaceDetails = flow(function* (xid) {
     try {
-      this.isLoading = true;
       const data = yield fetchPlaceByXid(xid); 
       this.placeDetails = data;
     } catch (error) {
       console.error("Failed to load place details:", error);
-    } finally {
-      this.isLoading = false;
-    }
+    } 
   });
   
 
@@ -86,18 +83,25 @@ class PlaceStore {
   }
 
   setIsLoading(data) {
-    console.log(data)
     this.isLoading = data;
   }
 
   setFilterCategory(category) {
-    console.log("Setting category:", category);
     this.filterCategory = category;
   }
 
   get filteredPlaces() {
     if (!this.filterCategory) return this.places;
     return this.places.filter((place) => place.kinds?.includes(this.filterCategory));
+  }
+
+  get uniqueKinds() {
+    const allKinds = this.places
+      .map((place) => place.kinds)
+      .filter(Boolean)
+      .flatMap((kinds) => kinds.split(","));
+
+    return Array.from(new Set(allKinds));
   }
 }
 

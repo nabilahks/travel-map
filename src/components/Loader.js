@@ -14,9 +14,9 @@ const Loader = () => {
         color: "black",
       }}
     >
-      <Typography variant="h6" sx={{ marginBottom: 2, color: "black" }}>
+      {/* <Typography variant="h6" sx={{ marginBottom: 2, color: "black" }}>
         Preparing your experience...
-      </Typography>
+      </Typography> */}
       <Box sx={{ width: "50%" }}>
         <LinearProgress sx={{ height: 10, borderRadius: 5, color: "#1e88e5" }} />
       </Box>

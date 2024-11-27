@@ -23,10 +23,11 @@ const PlaceFilter = observer(() => {
         }}
       >
         <MenuItem value="">All Categories</MenuItem>
-        <MenuItem value="museums">Museums</MenuItem>
-        <MenuItem value="religion">Religion</MenuItem>
-        <MenuItem value="interesting_places">Interesting Places</MenuItem>
-        <MenuItem value="apartments">Apartment</MenuItem>
+        {placeStore.uniqueKinds.map((kind, index) => (
+          <MenuItem key={index} value={kind}>
+            {kind.replace(/_/g, " ")}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

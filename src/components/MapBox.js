@@ -39,7 +39,8 @@ const MapboxMap = observer(({ places }) => {
     }
   };
 
-  const handleMarkerClick = (place) => {
+  const handleMarkerClick = async (place) => {
+    await placeStore.loadPlaceDetails(place.xid)
     setSelectedPlace(place);
   };
 
