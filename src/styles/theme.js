@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   typography: {
-    fontFamily: "'Concert One', sans-serif", // Pastikan ini sinkron dengan globals.css
+    fontFamily: "'Concert One', sans-serif", 
   },
   palette: {
     primary: {
@@ -16,14 +16,14 @@ const theme = createTheme({
     MuiPaginationItem: {
       styleOverrides: {
         root: {
-          color: "white", // Warna default teks
+          color: "white",
           "&.Mui-selected": {
-            backgroundColor: "white", // Background halaman aktif
-            color: "black", // Warna teks halaman aktif
+            backgroundColor: "white",
+            color: "black",
           },
           "&:hover": {
-            backgroundColor: "#555", // Background hover
-            color: "white", // Warna teks hover
+            backgroundColor: "#555",
+            color: "white",
           },
         },
       },
@@ -40,9 +40,9 @@ const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: "white", // Warna label default
+          color: "white", 
           "&.Mui-focused": {
-            color: "#00FFFF", // Warna label saat fokus
+            color: "#00FFFF",
           },
         },
       },
@@ -50,20 +50,20 @@ const theme = createTheme({
     MuiSelect: {
       styleOverrides: {
         root: {
-          borderRadius: "20px", // Border radius untuk dropdown
-          backgroundColor: "#333", // Background dropdown
-          color: "white", // Warna teks dropdown
+          borderRadius: "20px",
+          backgroundColor: "#333",
+          color: "white",
         },
         icon: {
-          color: "white", // Warna ikon dropdown
+          color: "white",
         },
       },
     },
     MuiMenu: {
       styleOverrides: {
         paper: {
-          backgroundColor: "#333", // Background menu dropdown
-          color: "white", // Warna teks dalam dropdown
+          backgroundColor: "#333", 
+          color: "white", 
         },
       },
     },
@@ -71,7 +71,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "&:hover": {
-            backgroundColor: "#444", // Warna hover untuk item dropdown
+            backgroundColor: "#444",
           },
         },
       },

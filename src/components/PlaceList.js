@@ -29,9 +29,9 @@ const PlaceList = ({ currentPlaces }) => {
 
       {/* Pagination Controls */}
       <Pagination
-        count={Math.ceil(currentPlaces.length / itemsPerPage)} // Total halaman
-        page={currentPage} // Halaman aktif
-        onChange={handlePageChange} // Fungsi untuk perubahan halaman
+        count={Math.ceil(currentPlaces.length / itemsPerPage)}
+        page={currentPage} 
+        onChange={handlePageChange}
         sx={{ marginTop: 2, display: "flex", justifyContent: "center", color: "#fff"}}
       />
     </Box>

@@ -9,7 +9,7 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 
 const MapboxMap = observer(({ places }) => {
   const mapRef = useRef(null);
-  const [selectedPlace, setSelectedPlace] = useState(null); // State untuk menyimpan tempat yang dipilih
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
   const { viewport, userLocation } = placeStore;
 
@@ -40,11 +40,11 @@ const MapboxMap = observer(({ places }) => {
   };
 
   const handleMarkerClick = (place) => {
-    setSelectedPlace(place); // Set tempat yang diklik
+    setSelectedPlace(place);
   };
 
   const handlePopupClose = () => {
-    setSelectedPlace(null); // Tutup popup
+    setSelectedPlace(null);
   };
 
   return (
@@ -80,7 +80,7 @@ const MapboxMap = observer(({ places }) => {
               key={index}
               longitude={place.point.lon}
               latitude={place.point.lat}
-              onClick={() => handleMarkerClick(place)} // Klik pada marker
+              onClick={() => handleMarkerClick(place)}
             >
               <div
                 style={{
@@ -100,8 +100,8 @@ const MapboxMap = observer(({ places }) => {
             latitude={selectedPlace.point.lat}
             anchor="top"
             closeButton={true}
-            closeOnClick={false} // Jangan tutup popup saat klik peta
-            onClose={handlePopupClose} // Tutup popup saat tombol close diklik
+            closeOnClick={false} 
+            onClose={handlePopupClose} 
             style={{
               borderRadius: "20px",
               border: "none",

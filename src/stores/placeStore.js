@@ -22,7 +22,7 @@ class PlaceStore {
       isLoading: observable,
       filterCategory: observable,
       loadPlaces: flow,
-      loadPlaceDetails: flow, // Tambahkan loadPlaceDetails
+      loadPlaceDetails: flow, 
       loadUserLocation: flow,
       setFilterCategory: action,
       setViewport: action,
