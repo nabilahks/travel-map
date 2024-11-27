@@ -6,7 +6,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 const PlaceFilter = observer(() => {
   const handleChange = (event) => {
     const selectedCategory = event.target.value;
-    placeStore.setFilterCategory(selectedCategory); // Pastikan metode dipanggil dengan benar
+    placeStore.setFilterCategory(selectedCategory);
   };
 
   return (
@@ -18,14 +18,15 @@ const PlaceFilter = observer(() => {
         label="Filter by Category"
         onChange={handleChange}
         sx={{
-          borderRadius: "20px", // Border radius diterapkan di sini
-          borderColor: "#000", // Tambahan: ubah background jika diperlukan
+          borderRadius: "20px", 
+          borderColor: "#000", 
         }}
       >
         <MenuItem value="">All Categories</MenuItem>
         <MenuItem value="museums">Museums</MenuItem>
         <MenuItem value="religion">Religion</MenuItem>
         <MenuItem value="interesting_places">Interesting Places</MenuItem>
+        <MenuItem value="apartments">Apartment</MenuItem>
       </Select>
     </FormControl>
   );

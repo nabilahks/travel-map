@@ -1,8 +1,9 @@
 import { action, flow, makeObservable, observable } from "mobx";
-import { fetchPlaces } from "../utils/api";
+import { fetchPlaceByXid, fetchPlaces } from "../utils/api";
 
 class PlaceStore {
   places = [];
+  placeDetails = null;
   userLocation = null;
   viewport = {
     longitude: 106.8272,
@@ -15,15 +16,17 @@ class PlaceStore {
   constructor() {
     makeObservable(this, {
       places: observable,
+      placeDetails: observable,
       userLocation: observable,
       viewport: observable,
       isLoading: observable,
       filterCategory: observable,
       loadPlaces: flow,
+      loadPlaceDetails: flow, // Tambahkan loadPlaceDetails
       loadUserLocation: flow,
       setFilterCategory: action,
       setViewport: action,
-      setIsLoading: action
+      setIsLoading: action,
     });
   }
 
@@ -35,6 +38,20 @@ class PlaceStore {
       console.error("Failed to load places:", error);
     } 
   });
+  
+  // Load detail tempat berdasarkan XID
+  loadPlaceDetails = flow(function* (xid) {
+    try {
+      this.isLoading = true;
+      const data = yield fetchPlaceByXid(xid); 
+      this.placeDetails = data;
+    } catch (error) {
+      console.error("Failed to load place details:", error);
+    } finally {
+      this.isLoading = false;
+    }
+  });
+  
 
   loadUserLocation = flow(function* () {
     try {

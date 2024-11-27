@@ -20,3 +20,18 @@ export const fetchPlaces = async (lon, lat, radius = 1000) => {
     throw error;
   }
 };
+
+export const fetchPlaceByXid = async (xid) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/xid/${xid}`, {
+      params: {
+        apikey: API_KEY,
+      },
+    });
+    return response.data; // Mengembalikan detail tempat
+  } catch (error) {
+    console.error("Error fetching place by xid:", error);
+    throw error;
+  }
+};
+
